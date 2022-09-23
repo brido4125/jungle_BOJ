@@ -28,3 +28,14 @@
 # 161 181 762 375
 # 예제 출력 4 
 # 161
+
+
+
+(x,y,w,h) = map(int, input().split(" "))
+
+upper_h = h-y
+right_w = w-x
+
+candidates = [x,y,upper_h,right_w]
+
+print((min(candidates)))
