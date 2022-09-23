@@ -1,0 +1,5 @@
+case = [9, 100, 99, 98, 97, 96, 95, 94, 93, 91]
+sum_score = 0
+for i in range(1, 6):
+        sum_score += case[i]
+average_score = sum_score/case[0]
