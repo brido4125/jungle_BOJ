@@ -1,13 +1,11 @@
+width, height = map(int, input().split())
+
+garo = []
+sero = []
+
+garo.append(height)
+garo.append(width)
 
 
-sosu = 0
-oksosu = 0
-for i in range(2,11):
-        if 11 % i == 0:
-            sosu = +1 
-if sosu > 0:
-        oksosu = 1
-else:
-        oksosu = 0
-
-print(oksosu)
+print(garo)
+print(sero)
