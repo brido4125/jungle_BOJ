@@ -11,7 +11,8 @@ def prime_by_eratosthenes(primes):
         if check[i] == 0:
             primes.append(i)
             for j in range(2 * i, len(check), i):
-                check[j] = 1
+                if check[j] != 1:
+                    check[j] = 1
     return check
 
 
