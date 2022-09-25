@@ -3,7 +3,6 @@
 
 count = 0
 
-
 def check_dimension(n, r, c):
     global count
     check_r = 0
