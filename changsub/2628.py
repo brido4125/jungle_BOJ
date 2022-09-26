@@ -6,9 +6,9 @@ garo_point = [0,x]
 sero_point = [0,y]
 for _ in range(num):
     dis,point = map(int,sys.stdin.readline().split())
-    if dis == 0:
+    if dis == 0:#세로의 자를 지점
         sero_point.append(point)
-    else:
+    else:# 가로의 자를 지점
         garo_point.append(point)
 
 
