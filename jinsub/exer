@@ -1,0 +1,11 @@
+width, height = map(int, input().split())
+
+garo = []
+sero = []
+
+garo.append(height)
+garo.append(width)
+
+
+print(garo)
+print(sero)
