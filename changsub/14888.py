@@ -1,75 +1,39 @@
-# 연산자 끼워 넣기
+def back_Tracking(index,sum):
+    global minAns
+    global maxAns
+    if index == N-1:
+        if minAns > sum:
+            minAns = sum
+        if maxAns < sum:
+            maxAns = sum
+        return
+    for i in range(4):
+        temp = sum
+        if operator[i] == 0:
+            continue
+        if i == 0:
+            sum += numArr[index+1]
+        elif i == 1:
+            sum -= numArr[index+1]
+        elif i == 2:
+            sum *= numArr[index + 1]
+        else:
+            if sum < 0:
+                sum = - (abs(sum)//numArr[index+1])
+            else:
+                sum = abs(sum) // numArr[index+1]
+        operator[i] -= 1
+        back_Tracking(index+1, sum)
+        operator[i] += 1
+        sum = temp
+
 
 N = int(input())
+numArr = list(map(int, input().split()))
+operator = list(map(int, input().split()))
+minAns = float('Inf')
+maxAns = float('-Inf')
 
-num_list = list(map(int, input().split()))
-
-op_list = list(map(int, input().split()))
-
-copy_op = op_list
-
-answer_list = []
-
-
-def backTracking(res, L):
-    if L == N - 1:
-        # tree 끝까지 선정 됨
-        answer_list.append(res)
-    else:
-        # 뽑았던 연산자는 안 뽑는 걸로 => count를 -1
-        for i in range(4):
-            if i == 0 and op_list[i] > 0:  # 덧셈 가능
-                if L == 0:
-                    target = num_list[L] + num_list[L + 1]
-                else:
-                    target = res + num_list[L + 1]
-                priv = res
-                res = target
-                op_list[i] -= 1
-                backTracking(res, L + 1)
-                op_list[i] += 1
-                res = priv
-            elif i == 1 and op_list[i] > 0:
-                if L == 0:
-                    target = num_list[L] - num_list[L + 1]
-                else:
-                    target = res - num_list[L + 1]
-                priv = res
-                res = target
-                op_list[i] -= 1
-                backTracking(res, L + 1)
-                op_list[i] += 1
-                res = priv
-            elif i == 2 and op_list[i] > 0:
-                if L == 0:
-                    target = num_list[L] * num_list[L + 1]
-                else:
-                    target = res * num_list[L + 1]
-                priv = res
-                res = target
-                op_list[i] -= 1
-                backTracking(res, L + 1)
-                op_list[i] += 1
-                res= priv
-            elif i == 3 and op_list[i] > 0:
-                if L == 0:
-                    if num_list[L] < 0 and num_list[L + 1] > 0:  # 음수를 양수로 나누는 경우
-                        target = -(-num_list[L] // num_list[L + 1])
-                    else:
-                        target = num_list[L] // num_list[L + 1]
-                else:
-                    if res < 0 and num_list[L + 1] > 0:  # 음수를 양수로 나누는 경우
-                        target = -(-res // num_list[L + 1])
-                    else:
-                        target = res // num_list[L + 1]
-                priv = res
-                res = target
-                op_list[i] -= 1
-                backTracking(res, L + 1)
-                op_list[i] += 1
-                res = priv
-
-
-backTracking(0, 0)
-print(max(answer_list))
-print(min(answer_list))
+back_Tracking(0,numArr[0])
+print(maxAns)
+print(minAns)
