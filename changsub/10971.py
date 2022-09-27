@@ -9,7 +9,7 @@ cities = []
 for i in range(N):
     cities.append(i)
 
-check = [False] * N
+check = [True] + [False] * (N-1)
 
 seq = [0] * N  # 경로 담는 Array, Permutation 사용
 
@@ -33,7 +33,7 @@ def permutation(L):
                 check[i] = False
 
 
-# permutation(0)
+permutation(1)
 min = 100000000
 for way in ways:
     cost = 0
