@@ -1,16 +1,29 @@
 N, r, c = map(int, input().split())
 
-board = [[0] * (2 ** N) for _ in range(2 ** N)]
-
 board_len = (2 ** N)
-reculsive_count = (board_len // 2) ** 2
+answer = 0
 
-def solving(len):
+
+def solving(len, r, c):
+    global answer
     if len == 1:
         return
+    half = len // 2
+    if r < half <= c:
+        # 2사분면
+        answer += (half ** 2)
+    elif r >= half > c:
+        # 3사분면
+        answer += 2 * (half ** 2)
+    elif r >= half and c >= half:
+        # 4사분면
+        answer += 3 * (half ** 2)
+    if r >= half:
+        r -= half
+    if c >= half:
+        c -= half
+    solving(half, r, c)
 
 
-
-
-setting(0, 0, 0, -1)
-print(board)
+solving(board_len, r, c)
+print(answer)
