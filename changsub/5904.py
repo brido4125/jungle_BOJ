@@ -8,6 +8,5 @@ cnt = 1
 while length < N:
     sentence = sentence + "m" + ("o" * (cnt + 2)) + sentence
     length = len(sentence)
-    print(length)
 
 print(sentence[N - 1])
