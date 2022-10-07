@@ -1,39 +1,56 @@
-def back_Tracking(index,sum):
-    global minAns
-    global maxAns
-    if index == N-1:
-        if minAns > sum:
-            minAns = sum
-        if maxAns < sum:
-            maxAns = sum
-        return
-    for i in range(4):
-        temp = sum
-        if operator[i] == 0:
-            continue
-        if i == 0:
-            sum += numArr[index+1]
-        elif i == 1:
-            sum -= numArr[index+1]
-        elif i == 2:
-            sum *= numArr[index + 1]
-        else:
-            if sum < 0:
-                sum = - (abs(sum)//numArr[index+1])
-            else:
-                sum = abs(sum) // numArr[index+1]
-        operator[i] -= 1
-        back_Tracking(index+1, sum)
-        operator[i] += 1
-        sum = temp
-
-
+minAns = float('Inf')
+maxAns = float('-Inf')
 N = int(input())
 numArr = list(map(int, input().split()))
 operator = list(map(int, input().split()))
-minAns = float('Inf')
-maxAns = float('-Inf')
 
-back_Tracking(0,numArr[0])
-print(maxAns)
-print(minAns)
+answers = []
+
+
+def dfs(level, sum):
+    global depth, minAns, maxAns, operator, answers
+    if level == depth:
+        answers.append(sum)
+        return
+    else:
+        for i in range(len(operator)):
+            if i == 0 and operator[0] > 0:
+                sum += numArr[level + 1]
+                operator[0] -= 1
+                dfs(level + 1, sum)
+                operator[0] += 1
+                sum -= numArr[level + 1]
+            elif i == 1 and operator[1] > 0:
+                sum -= numArr[level + 1]
+                operator[1] -= 1
+                dfs(level + 1, sum)
+                operator[1] += 1
+                sum += numArr[level + 1]
+            elif i == 2 and operator[2] > 0:
+                sum *= numArr[level + 1]
+                operator[2] -= 1
+                dfs(level + 1, sum)
+                operator[2] += 1
+                sum //= numArr[level + 1]
+            elif i == 3 and operator[3] > 0:
+                # 음수 나누기 처리
+                if sum < 0:
+                    sum = -(-sum // numArr[level + 1])
+                    operator[3] -= 1
+                    dfs(level + 1, sum)
+                    operator[3] += 1
+                    sum *= -numArr[level + 1]
+                else:
+                    sum = sum // numArr[level + 1]
+                    operator[3] -= 1
+                    dfs(level + 1, sum)
+                    operator[3] += 1
+                    sum *= numArr[level + 1]
+
+
+
+
+depth = sum(operator)
+dfs(0, numArr[0])
+print(max(answers))
+print(min(answers))
