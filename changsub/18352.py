@@ -25,6 +25,7 @@ def bfs():
     while queue:
         popleft = queue.popleft()
         priv_distance = visited[popleft]
+        # pop한 노드의 거리가 K와 같을 경우 answer에 append
         if priv_distance == K:
             answers.append(popleft)
         for node in board[popleft]:
