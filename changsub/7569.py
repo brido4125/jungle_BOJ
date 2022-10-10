@@ -6,8 +6,6 @@ M, N, H = map(int, input().split())
 board = []
 
 queue = deque()
-days = 0
-empty = 0
 
 # 아래, 왼쪽, 위, 오른쪽, 위층, 아래층 순으로 탐색
 dx = (0, -1, 0, 1, 0, 0)
@@ -23,9 +21,6 @@ for i in range(H):
                 queue.append((k, j, i))  # x,y,z순으로
     board.append(tmp)
 
-total = M * N * H
-done = total - empty
-
 
 def bfs():
     global days
@@ -40,8 +35,6 @@ def bfs():
                     0 <= currentZ < H and \
                     board[currentZ][currentY][currentX] == 0:
                 board[currentZ][currentY][currentX] = board[privZ][privY][privX] + 1
-                if days < board[currentZ][currentY][currentX]:
-                    days = board[currentZ][currentY][currentX]
                 queue.append((currentX, currentY, currentZ))
 
 
