@@ -9,7 +9,7 @@ def bfs():
 
     while heap:
         priv, priv_cost = heapq.heappop(heap)
-        # 현재 도시까지 가는데 드는 비용이 더 적으면 실행 않고 다음 반복으로
+        # 현재 설정된 cost가 더 작으면 반복 로직 돌 필요 없음
         if visited[priv] < priv_cost:
             continue
 
