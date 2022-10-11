@@ -34,8 +34,10 @@ def bfs():
             for j in range(4):
                 current_water_col = priv_water_col + dx[j]
                 current_water_row = priv_water_row + dy[j]
-                if 0 <= current_water_row < R and 0 <= current_water_col < C and board[current_water_row][
-                    current_water_col] == '.':
+                # '.' 이면 물이 퍼져 나간다
+                if 0 <= current_water_row < R and 0 <= current_water_col < C \
+                        and board[current_water_row][current_water_col] == '.'\
+                        and board[current_water_row][current_water_col] != 'X':
                     board[current_water_row][current_water_col] = '*'
                     water_queue.append((current_water_row, current_water_col))
         waterCount = len(water_queue)
@@ -45,17 +47,24 @@ def bfs():
             for t in range(4):
                 current_hog_row = priv_hog_row + dy[t]
                 current_hog_col = priv_hog_col + dx[t]
-                if current_hog_row == cave_row and current_hog_col == cave_col:
-                    board[cave_row][cave_col] = board[priv_hog_row][priv_hog_col] + 1
-                if 0 <= current_hog_row < R and 0 <= current_hog_col < C and board[current_hog_row][
-                    current_hog_col] == '.':
+                if 0 <= current_hog_row < R and 0 <= current_hog_col < C \
+                        and board[current_hog_row][current_hog_col] == '.'\
+                        and board[current_hog_row][current_hog_col] != 'X':
                     board[current_hog_row][current_hog_col] = board[priv_hog_row][priv_hog_col] + 1
                     hog_queue.append((current_hog_row, current_hog_col))
         hogCount = len(hog_queue)
 
-# 벽을 안써서 틀린거 같음
+answers = []
+
 bfs()
-if board[cave_row][cave_col] == 'D':
+for i in range(4):
+    target_row = cave_row + dy[i]
+    target_col = cave_col + dx[i]
+    if  0 <= target_col < C and 0 <= target_row < R:
+        if isinstance(board[target_row][target_col],int):
+            answers.append(board[target_row][target_col])
+
+if len(answers) == 0:
     print("KAKTUS")
 else:
-    print(board[cave_row][cave_col])
+    print(min(answers) + 1)
