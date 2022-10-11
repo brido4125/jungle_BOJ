@@ -1,59 +1,59 @@
-import sys
 from collections import deque
-
-R, C = map(int, input().split())
-
-board = [list(map(int, sys.stdin.readline().split())) for _ in range(R)]
-
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
-
-visited = [[False] * C for _ in range(R)]
+import sys
 
 
-def dfs(row, col):
-    visited[row][col] = True
-    for i in range(4):
-        nextRow = row + dy[i]
-        nextCol = col + dx[i]
-        if nextRow < 0 or nextCol < 0 or nextCol >= C or nextRow >= R:
-            continue
-        if board[nextRow][nextCol] != 0 and visited[nextRow][nextCol] == False:
-            dfs(nextRow, nextCol)
+def melting():
+    # 빙하 주변의 물의 개수
+    glacier = [[0] * m for _ in range(n)]
+    for i in range(n):
+        for j in range(m):
+            if arr[i][j]:
+                cnt = 0
+                for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                    ni, nj = i + di, j + dj
+                    # arr[ni][nj] == 0이면 빙산 주변의 물 count +1
+                    if 0 <= ni < n and 0 <= nj < m and not arr[ni][nj]:
+                        cnt += 1
+                glacier[i][j] = cnt
+    for i in range(n):
+        for j in range(m):
+            arr[i][j] -= glacier[i][j]
+            if arr[i][j] < 0:
+                arr[i][j] = 0
 
 
-def getSeparateNum():
+def dfs(x, y):
+    stack = deque([])
+    stack.append((x, y))
+    visited[x][y] = 1
+    while stack:
+        x, y = stack.pop()
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < m and arr[nx][ny] and not visited[nx][ny]:
+                stack.append((nx, ny))
+                visited[nx][ny] = 1
+
+
+n, m = map(int, input().split())
+arr = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
+res = 0
+while True:
+    visited = [[0] * m for _ in range(n)]
+    melting()
     cnt = 0
-    for i in range(R):
-        for j in range(C):
-            if board[i][j] != 0 and visited[i][j] == False:
+    check = 0
+    res += 1
+    for i in range(n):
+        for j in range(m):
+            # 한번에 vistied가 전부 True가 되지 않으면 빙산이 나누어졌다는 뜻
+            if arr[i][j] and not visited[i][j]:
                 dfs(i, j)
                 cnt += 1
-
-
-def bfs():
-    queue = deque()
-    visited = [[False] * C for _ in range(R)]
-    for i in range(R):
-        for j in range(C):
-            if board[i][j] != 0:
-                queue.append((i, j))
-                visited[i][j] = True
-
-    while queue:
-        row, col, = queue.popleft()
-        seaNum = 0
-        for i in range(4):
-            dx = col + dx[i]
-            dy = row + dy[i]
-
-            if dx < 0 or dy < 0 or dx >= C or dy >= R:
-                continue
-            if visited[dy][dx] == False and board[dy][dx] == 0:
-                seaNum += 1
-        if board[row][col] - seaNum < 0:
-            board[row][col] = 0
-        else:
-            board[row][col] -= seaNum
-
-
+                check += 1
+    if cnt > 1:
+        print(res)
+        break
+    if not check:
+        print(0)
+        break
