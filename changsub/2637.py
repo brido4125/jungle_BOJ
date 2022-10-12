@@ -36,6 +36,7 @@ def topology_sort():
 
 
 topology_sort()
+print(needs)
 
 for x in enumerate(needs[N]):
     if x[1] > 0:
