@@ -6,7 +6,6 @@ N, M = map(int, input().split())
 heavy_graph = [[] for _ in range(N + 1)]
 # 노드보다 가벼운 거 추가
 light_graph = [[] for _ in range(N + 1)]
-visited = [False] * (N + 1)
 
 target = (N // 2) + 1
 
@@ -15,30 +14,30 @@ for _ in range(M):
     heavy_graph[heavy].append(light)
     light_graph[light].append(heavy)
 
-
-def bfs():
-    queue = deque()
-    queue.append(1)
-    while queue:
-        popleft = queue.popleft()
-        if len(heavy_graph[popleft]) == len(light_graph[popleft]):
-            continue
-        for elem in light_graph[popleft]:
-            visited[popleft] = len(light_graph[popleft])
-            if elem > popleft:
-                if len(heavy_graph[elem]) != 0:
-                    visited[popleft] += len(heavy_graph[elem])
-                if not visited[elem]:
-                    queue.append(elem)
-        for elem in heavy_graph[popleft]:
-            visited[popleft] = len(heavy_graph[popleft])
-            if elem < popleft:
-                if len(light_graph[elem]) != 0:
-                    visited[popleft] += len(light_graph[elem])
-                if not visited[elem]:
-                    queue.append(elem)
+visited = [False] * (N + 1)
+answers = [0] * (N + 1)
 
 
+def dfs(start, list):
+    global count
+    visited[start] = True
+    for elem in list[start]:
+        if not visited[elem]:
+            count += 1
+            dfs(elem, list)
 
-bfs()
-print(visited)
+
+answer = 0
+
+for i in range(1, N + 1):
+    count = 0
+    visited = [False] * (N + 1)
+    dfs(i, light_graph)
+    if count >= target:
+        answer += 1
+    count = 0
+    dfs(i, heavy_graph)
+    if count >= target:
+        answer += 1
+
+print(answer)
