@@ -15,6 +15,7 @@ dp = [0] * (N + 1)
 dp[0] = stairs[0]  # 0번째 비우고 시작
 dp[1] = stairs[1]
 
+
 # Top-Down 방식
 def reculsive(N):
     if N <= 0:
@@ -28,7 +29,7 @@ if N >= 2:
     memoization[2] = stairs[2] + stairs[1]
     dp[2] = stairs[2] + stairs[1]
 
-#Bottom-Up 방식
+# Bottom-Up 방식
 for i in range(3, N + 1):
     dp[i] = stairs[i] + max(dp[i - 3] + stairs[i - 1], dp[i - 2])
 print(reculsive(N))
